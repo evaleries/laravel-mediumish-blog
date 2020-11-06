@@ -29,7 +29,7 @@
                     </a>
                     <div class="card-block">
                         <h2 class="card-title"><a href="{{ route('post.show', [$article->id, $article->slug]) }}">{{ $article->title }}</a></h2>
-                        <h4 class="card-text">{{ str_limit(strip_tags($article->content), 100) }}</h4>
+                        <h4 class="card-text">{!! str_limit(strip_tags($article->content), 100) !!}</h4>
                         <div class="metafooter">
                             <div class="wrapfooter">
                                 <span class="meta-footer-thumb">
