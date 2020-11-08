@@ -85,7 +85,9 @@ class Article {
 
     protected function latest()
     {
-        return $this->all()->reverse();
+        return $this->contents->sortByDesc('created_at')->map(function ($item) {
+            return Article::fromArray($item);
+        });
     }
 
     protected function find($id)
@@ -116,7 +118,7 @@ class Article {
         return $this->contents->last();
     }
 
-    public function update($attributes)
+    protected function update($attributes)
     {
         $articleKey = $this->find(($this->currentArticle['id'] ?? $attributes['id']) ?? -1);
         abort_if($articleKey === false, 404, 'Artikel tidak ditemukan!');
@@ -132,7 +134,7 @@ class Article {
         return $this->contents->get($articleKey, null);
     }
 
-    public function delete($articleId = null)
+    protected function delete($articleId = null)
     {
         $articleKey = $this->find($articleId ?? $this->currentArticle['id']);
         abort_if($articleKey === false, 404, 'Artikel tidak ditemukan');
@@ -163,7 +165,7 @@ class Article {
      *
      * @return Article
      */
-    public function save()
+    protected function save()
     {
         Storage::put($this->fileName, $this->prepareSave());
         return $this;
