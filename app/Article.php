@@ -97,10 +97,8 @@ class Article {
         });
     }
 
-    protected function create($attributes)
+    public function create($attributes)
     {
-        // abort_unless(array_keys($attributes) == collect($this->attributes)->except(0)->toArray(), 422, 'Terdapat data yang kosong!');
-
         if (isset($attributes['id']) && ($key = $this->find($attributes['id'])) !== false) {
             return $this->contents->get($key);
         }
@@ -118,7 +116,7 @@ class Article {
         return $this->contents->last();
     }
 
-    protected function update($attributes)
+    public function update($attributes)
     {
         $articleKey = $this->find(($this->currentArticle['id'] ?? $attributes['id']) ?? -1);
         abort_if($articleKey === false, 404, 'Artikel tidak ditemukan!');
@@ -134,7 +132,7 @@ class Article {
         return $this->contents->get($articleKey, null);
     }
 
-    protected function delete($articleId = null)
+    public function delete($articleId = null)
     {
         $articleKey = $this->find($articleId ?? $this->currentArticle['id']);
         abort_if($articleKey === false, 404, 'Artikel tidak ditemukan');
